@@ -151,20 +151,22 @@ class Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type extends Mage_Eav_Model
      */
     protected function _getIncrementLastId()
     {
-        if('' === $this->_datePrefix || 0 === intval(Mage::getStoreConfig('mswebdesign_customordernumber/'.$this->_entityTypeCode.'/date_prefix_reset_enabled', $this->_storeId))) {
-            return $this->_entityStoreConfig->getIncrementLastId();
+        if('' !== $this->_datePrefix) {
+            $this->_handleIncrementLastIdIfDateHasChanged();
         }
 
-        return $this->_resetIncrementLastIfDateHasChanged();
+        return $this->_entityStoreConfig->getIncrementLastId();
     }
 
-    /**
-     * @return int
-     */
-    protected function _resetIncrementLastIfDateHasChanged()
+
+    protected function _handleIncrementLastIdIfDateHasChanged()
     {
         if($this->_entityStoreConfig->getIncrementPrefix() !== $this->_datePrefix) {
-            return 0;
+            if (1 === intval(Mage::getStoreConfig('mswebdesign_customordernumber/'.$this->_entityTypeCode.'/date_prefix_reset_enabled', $this->_storeId))) {
+                $this->_entityStoreConfig->setIncrementLastId(0);
+            } else {
+                $this->_entityStoreConfig->setIncrementLastId(substr($this->_entityStoreConfig->getIncrementLastId(), strlen($this->_datePrefix)));
+            }
         }
     }
 
