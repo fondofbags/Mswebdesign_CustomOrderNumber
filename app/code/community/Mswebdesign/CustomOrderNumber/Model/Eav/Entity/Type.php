@@ -34,6 +34,11 @@ class Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type extends Mage_Eav_Model
     /**
      * @var string
      */
+    protected $_prefix = '';
+
+    /**
+     * @var string
+     */
     protected $_datePrefix = '';
 
     /**
@@ -64,37 +69,59 @@ class Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type extends Mage_Eav_Model
      */
     public function fetchNewIncrementId($storeId = null)
     {
-        if(!in_array($this->_entityTypeCode = $this->getEntityTypeCode(), $this->_processedEntityTypeCodes)) {
-            return parent::fetchNewIncrementId($storeId);
-        }
+        $this->_storeId = $storeId;
 
         if (!$this->getIncrementModel()) {
             return false;
         }
-
-        $this->_storeId = $storeId;
-
+        if(!in_array($this->_entityTypeCode = $this->getEntityTypeCode(), $this->_processedEntityTypeCodes)) {
+            return parent::fetchNewIncrementId($this->_storeId);
+        }
         if (!$this->getIncrementPerStore() || ($this->_storeId === null)) {
-            /**
-             * store_id null we can have for entity from removed store
-             */
             $this->_storeId = 0;
         }
 
-        // Start transaction to run SELECT ... FOR UPDATE
-        $this->_getResource()->beginTransaction();
+        $this->_computeAndPersistNewIncrementId();
 
-        $this->_entityStoreConfig = Mage::getModel('eav/entity_store')
-            ->loadByEntityStore($this->getId(), $this->_storeId);
+        return $this->_incrementId;
+    }
+
+    protected function _computeAndPersistNewIncrementId()
+    {
+        $this->_getResource()->beginTransaction();
+        $this->_loadEntityStoreConfig();
 
         if (!$this->_entityStoreConfig->getId()) {
-            $this->_entityStoreConfig
-                ->setEntityTypeId($this->getId())
-                ->setStoreId($this->_storeId)
-                ->setIncrementPrefix($this->_storeId)
-                ->save();
+            $this->_saveDefaultEntityStoreConfig();
         }
 
+        $this->_loadAndConfigureIncrementInstance();
+        $this->_incrementId = $this->_incrementInstance->getNextId();
+
+        if(false === $this->_isIncrementIdUinique()) {
+            $this->_generateUniqueIncrementId();
+        }
+
+        $this->_updateEntityStoreConfig();
+        $this->_getResource()->commit();
+    }
+
+    protected function _loadEntityStoreConfig()
+    {
+        $this->_entityStoreConfig = Mage::getModel('eav/entity_store')
+            ->loadByEntityStore($this->getId(), $this->_storeId);
+    }
+
+    protected function _saveDefaultEntityStoreConfig() {
+        $this->_entityStoreConfig
+            ->setEntityTypeId($this->getId())
+            ->setStoreId($this->_storeId)
+            ->setIncrementPrefix($this->_storeId)
+            ->save();
+    }
+
+    protected function _loadAndConfigureIncrementInstance()
+    {
         $this->_incrementInstance = Mage::getModel($this->getIncrementModel())
             ->setPrefix($this->_getIncrementPrefix())
             ->setPadLength($this->_getIncrementPadLength())
@@ -102,21 +129,13 @@ class Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type extends Mage_Eav_Model
             ->setLastId($this->_getIncrementLastId())
             ->setEntityTypeId($this->_entityStoreConfig->getEntityTypeId())
             ->setStoreId($this->_entityStoreConfig->getStoreId());
+    }
 
-        $this->_incrementId = $this->_incrementInstance->getNextId();
-        if(false === $this->_isIncrementIdUinique()) {
-                $this->_generateUniqueIncrementId();
-        }
-
-
+    protected function _updateEntityStoreConfig()
+    {
         $this->_entityStoreConfig->setIncrementLastId($this->_incrementId);
         $this->_entityStoreConfig->setIncrementPrefix($this->_getIncrementPrefix());
         $this->_entityStoreConfig->save();
-
-        // Commit increment_last_id changes
-        $this->_getResource()->commit();
-
-        return $this->_incrementId;
     }
 
     /**
@@ -128,14 +147,24 @@ class Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type extends Mage_Eav_Model
         $datePrefix = Mage::getStoreConfig('mswebdesign_customordernumber/'.$this->_entityTypeCode.'/date_prefix', $this->_storeId);
 
         if('' !== $datePrefix) {
-            return $this->_datePrefix = date($datePrefix);
+            return $this->_datePrefix = $this->_convertDatePrefixToDate($datePrefix);
         }
 
         if('' !== $prefix) {
-            return $prefix;
+            return $this->_prefix = $prefix;
         }
 
         return null;
+    }
+
+    /**
+     * @param $datePrefix
+     *
+     * @return string
+     */
+    protected function _convertDatePrefixToDate($datePrefix)
+    {
+        return date($datePrefix);
     }
 
     /**
@@ -153,6 +182,8 @@ class Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type extends Mage_Eav_Model
     {
         if('' !== $this->_datePrefix) {
             $this->_handleIncrementLastIdIfDateHasChanged();
+        } else {
+            $this->_handleIncrementLastIdIfPrefixLengthHasChanged();
         }
 
         return $this->_entityStoreConfig->getIncrementLastId();
@@ -165,8 +196,15 @@ class Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type extends Mage_Eav_Model
             if (1 === intval(Mage::getStoreConfig('mswebdesign_customordernumber/'.$this->_entityTypeCode.'/date_prefix_reset_enabled', $this->_storeId))) {
                 $this->_entityStoreConfig->setIncrementLastId(0);
             } else {
-                $this->_entityStoreConfig->setIncrementLastId(substr($this->_entityStoreConfig->getIncrementLastId(), strlen($this->_datePrefix)));
+                $this->_entityStoreConfig->setIncrementLastId($this->_datePrefix . substr($this->_entityStoreConfig->getIncrementLastId(), strlen($this->_datePrefix)));
             }
+        }
+    }
+
+    protected function _handleIncrementLastIdIfPrefixLengthHasChanged()
+    {
+        if(strlen($this->_prefix) !== $this->_entityStoreConfig->getIncrementPrefix()) {
+            $this->_entityStoreConfig->setIncrementLastId($this->_prefix.substr($this->_entityStoreConfig->getIncrementLastId(), strlen($this->_entityStoreConfig->getIncrementPrefix())));
         }
     }
 
