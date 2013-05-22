@@ -76,6 +76,15 @@
                             <validate>validate-digits</validate>
                             <comment><![CDATA[An ID of 1 with a padding of 4 will be 0001]]></comment>
                         </padding_length>
+                        <number translate="label">
+                            <label>Default Number</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-digits</validate>
+                        </number>
                     </fields>
                 </order>
                 <invoice translate="label" module="mswebdesign_customordernumber">
@@ -128,6 +137,15 @@
                             <validate>validate-digits</validate>
                             <comment><![CDATA[An ID of 1 with a padding of 4 will be 0001]]></comment>
                         </padding_length>
+                        <number translate="label">
+                            <label>Default Number</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-digits</validate>
+                        </number>
                     </fields>
                 </invoice>
                 <shipment translate="label" module="mswebdesign_customordernumber">
@@ -180,6 +198,15 @@
                             <validate>validate-digits</validate>
                             <comment><![CDATA[An ID of 1 with a padding of 4 will be 0001]]></comment>
                         </padding_length>
+                        <number translate="label">
+                            <label>Default Number</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-digits</validate>
+                        </number>
                     </fields>
                 </shipment>
                 <creditmemo translate="label" module="mswebdesign_customordernumber">
@@ -232,6 +259,15 @@
                             <validate>validate-digits</validate>
                             <comment><![CDATA[An ID of 1 with a padding of 4 will be 0001]]></comment>
                         </padding_length>
+                        <number translate="label">
+                            <label>Default Number</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-digits</validate>
+                        </number>
                     </fields>
                 </creditmemo>
             </groups>

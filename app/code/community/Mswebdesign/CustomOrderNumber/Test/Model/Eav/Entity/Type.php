@@ -28,7 +28,7 @@ class Mswebdesign_CustomOrderNumber_Test_Model_Eav_Entity_Type extends EcomDev_P
     {
         $fixture = $this->getModelMockBuilder('mswebdesign_customordernumber/eav_entity_type')->setMethods(array('_convertDatePrefixToDate'))->getMock();
         $fixture->loadByCode('invoice');
-        $fixture->expects($this->exactly(2))->method('_convertDatePrefixToDate')->will($this->returnValue('2013'));
+        $fixture->expects($this->exactly(4))->method('_convertDatePrefixToDate')->will($this->returnValue('2013'));
         $this->assertSame('201300009', $fixture->fetchNewIncrementId());
     }
 
@@ -39,7 +39,7 @@ class Mswebdesign_CustomOrderNumber_Test_Model_Eav_Entity_Type extends EcomDev_P
     {
         $fixture = $this->getModelMockBuilder('mswebdesign_customordernumber/eav_entity_type')->setMethods(array('_convertDatePrefixToDate'))->getMock();
         $fixture->loadByCode('invoice');
-        $fixture->expects($this->exactly(2))->method('_convertDatePrefixToDate')->will($this->returnValue('2013'));
+        $fixture->expects($this->exactly(4))->method('_convertDatePrefixToDate')->will($this->returnValue('2013'));
         $this->assertSame('201300013', $fixture->fetchNewIncrementId());
     }
 
@@ -50,7 +50,7 @@ class Mswebdesign_CustomOrderNumber_Test_Model_Eav_Entity_Type extends EcomDev_P
     {
         $fixture = $this->getModelMockBuilder('mswebdesign_customordernumber/eav_entity_type')->setMethods(array('_convertDatePrefixToDate'))->getMock();
         $fixture->loadByCode('invoice');
-        $fixture->expects($this->exactly(2))->method('_convertDatePrefixToDate')->will($this->returnValue('2013'));
+        $fixture->expects($this->exactly(4))->method('_convertDatePrefixToDate')->will($this->returnValue('2013'));
         $this->assertSame('201300001', $fixture->fetchNewIncrementId());
     }
 
@@ -123,5 +123,26 @@ class Mswebdesign_CustomOrderNumber_Test_Model_Eav_Entity_Type extends EcomDev_P
         $fixture->loadByCode('invoice');
         $fixture->expects($this->exactly(3))->method('_isIncrementIdUinique')->will($this->onConsecutiveCalls(false, false, true));
         $this->assertSame('300015', $fixture->fetchNewIncrementId());
+    }
+
+    /**
+     * @loadFixture defaultNumber
+     */
+    public function testAppendDefaultNumberWithRegularIncrement()
+    {
+        $fixture = Mage::getModel('mswebdesign_customordernumber/eav_entity_type');
+        $fixture->loadByCode('invoice');
+        $this->assertSame('XXX00960', $fixture->fetchNewIncrementId());
+    }
+
+    /**
+     * @loadFixture defaultNumberDateIncrement
+     */
+    public function testAppendDefaultNumberWithDateIncrement()
+    {
+        $fixture = $this->getModelMockBuilder('mswebdesign_customordernumber/eav_entity_type')->setMethods(array('_convertDatePrefixToDate'))->getMock();
+        $fixture->loadByCode('invoice');
+        $fixture->expects($this->exactly(5))->method('_convertDatePrefixToDate')->will($this->returnValue('2013'));
+        $this->assertSame('201300960', $fixture->fetchNewIncrementId());
     }
 }

@@ -63,24 +63,28 @@
                 <date_prefix></date_prefix>
                 <date_prefix_reset_enabled>0</date_prefix_reset_enabled>
                 <padding_length>8</padding_length>
+                <number>1</number>
             </order>
             <invoice>
                 <prefix></prefix>
                 <date_prefix></date_prefix>
                 <date_prefix_reset_enabled>0</date_prefix_reset_enabled>
                 <padding_length>8</padding_length>
+                <number>1</number>
             </invoice>
             <shipment>
                 <prefix></prefix>
                 <date_prefix></date_prefix>
                 <date_prefix_reset_enabled>0</date_prefix_reset_enabled>
                 <padding_length>8</padding_length>
+                <number>1</number>
             </shipment>
             <creditmemo>
                 <prefix></prefix>
                 <date_prefix></date_prefix>
                 <date_prefix_reset_enabled>0</date_prefix_reset_enabled>
                 <padding_length>8</padding_length>
+                <number>1</number>
             </creditmemo>
         </mswebdesign_customordernumber>
     </default>

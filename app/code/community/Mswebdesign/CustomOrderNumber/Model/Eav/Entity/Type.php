@@ -97,6 +97,7 @@ class Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type extends Mage_Eav_Model
 
         $this->_loadAndConfigureIncrementInstance();
         $this->_incrementId = $this->_incrementInstance->getNextId();
+        $this->_appendDefaultNumberConstraint();
 
         if(false === $this->_isIncrementIdUinique()) {
             $this->_generateUniqueIncrementId();
@@ -232,5 +233,30 @@ class Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type extends Mage_Eav_Model
             $this->_incrementInstance->setLastId($this->_incrementId);
             $this->_incrementId = $this->_incrementInstance->getNextId();
         } while (false === $this->_isIncrementIdUinique());
+    }
+
+    protected function _appendDefaultNumberConstraint()
+    {
+        $defaultNumber = intval(Mage::getStoreConfig('mswebdesign_customordernumber/'.$this->_entityTypeCode.'/number', $this->_storeId));
+        $currentNumber = $this->_getCurrentNumber();
+
+        if($currentNumber < $defaultNumber) {
+            $this->_incrementInstance->setLastId($this->_getIncrementPrefix() . ($defaultNumber - 1));
+            $this->_incrementId = $this->_incrementInstance->getNextId();
+        }
+    }
+
+    /**
+     * @return int
+     */
+    protected function _getCurrentNumber()
+    {
+        if (strpos($this->_incrementId, $this->_getIncrementPrefix()) === 0) {
+            $currentNumber = (int)substr($this->_incrementId, strlen($this->_getIncrementPrefix()));
+        } else {
+            $currentNumber = (int)$this->_incrementId;
+        }
+
+        return $currentNumber;
     }
 }
