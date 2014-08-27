@@ -1,0 +1,16 @@
+{
+    "name": "cgrugel/mswebdesign-custom-order-number",
+    "license": "OSL-3.0",
+    "type": "magento-module",
+    "description": "Magento Custom Order Numbers",
+    "homepage": "http://www.muenster-webdesign.net/blog/magento-custom-order-number-modul-als-open-source-auf-github/",
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    },
+    "authors":[
+        {
+            "name":"Christian Grugel",
+            "email":"{firstname}@{lastname}.net"
+        }
+    ]
+}
