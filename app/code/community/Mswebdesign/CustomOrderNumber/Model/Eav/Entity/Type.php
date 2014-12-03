@@ -71,6 +71,9 @@ class Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type extends Mage_Eav_Model
     {
         $this->_storeId = $storeId;
 
+        // @TODO: make this configurable
+        $this->setIncrementPerStore(true);
+
         if (!$this->getIncrementModel()) {
             return false;
         }
