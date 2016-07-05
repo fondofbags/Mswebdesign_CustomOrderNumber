@@ -1,3 +1,5 @@
 app/code/community/Mswebdesign/CustomOrderNumber/           app/code/community/Mswebdesign/CustomOrderNumber/
+app/design/adminhtml/default/default/layout/*               app/design/adminhtml/default/default/layout/
 app/etc/modules/Mswebdesign_CustomOrderNumber.xml           app/etc/modules/Mswebdesign_CustomOrderNumber.xml
 app/locale/de_DE/Mswebdesign_CustomOrderNumber.csv          app/locale/de_DE/Mswebdesign_CustomOrderNumber.csv
+js/mswebdesign/customordernumber/*                          js/mswebdesign/customordernumber/
