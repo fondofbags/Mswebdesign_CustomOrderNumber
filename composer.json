@@ -9,8 +9,7 @@
     },
     "authors":[
         {
-            "name":"Christian Grugel",
-            "email":"{firstname}@{lastname}.net"
+            "name":"Christian Grugel"
         }
     ]
 }
