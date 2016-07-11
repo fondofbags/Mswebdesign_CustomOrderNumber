@@ -55,6 +55,13 @@
                 </mswebdesign_customordernumber>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <mswebdesign_customordernumber>
+                    <file>mswebdesign_customordernumber.xml</file>
+                </mswebdesign_customordernumber>
+            </updates>
+        </layout>
     </adminhtml>
     <default>
         <mswebdesign_customordernumber>
