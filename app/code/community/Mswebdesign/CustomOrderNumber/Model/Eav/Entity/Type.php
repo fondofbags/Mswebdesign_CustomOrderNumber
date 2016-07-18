@@ -15,7 +15,6 @@
  */
 class Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type extends Mage_Eav_Model_Entity_Type
 {
-
     /**
      * @var int
      */
@@ -71,8 +70,8 @@ class Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type extends Mage_Eav_Model
     {
         $this->_storeId = $storeId;
 
-        // @TODO: make this configurable
-        $this->setIncrementPerStore(true);
+        $incrementPerStore = Mage::getStoreConfigFlag('mswebdesign_customordernumber/'.$this->_entityTypeCode.'/increment_per_store', $this->_storeId);
+        $this->setIncrementPerStore($incrementPerStore);
 
         if (!$this->getIncrementModel()) {
             return false;

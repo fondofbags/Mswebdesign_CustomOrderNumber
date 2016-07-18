@@ -87,6 +87,7 @@
                 <number>1</number>
             </shipment>
             <creditmemo>
+                <increment_per_store>1</increment_per_store>
                 <prefix></prefix>
                 <date_prefix></date_prefix>
                 <date_prefix_reset_enabled>0</date_prefix_reset_enabled>
