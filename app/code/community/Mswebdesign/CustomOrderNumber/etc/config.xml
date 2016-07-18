@@ -66,6 +66,7 @@
     <default>
         <mswebdesign_customordernumber>
             <order>
+                <increment_per_store>1</increment_per_store>
                 <prefix></prefix>
                 <date_prefix></date_prefix>
                 <date_prefix_reset_enabled>0</date_prefix_reset_enabled>
@@ -73,6 +74,7 @@
                 <number>1</number>
             </order>
             <invoice>
+                <increment_per_store>1</increment_per_store>
                 <prefix></prefix>
                 <date_prefix></date_prefix>
                 <date_prefix_reset_enabled>0</date_prefix_reset_enabled>
@@ -80,6 +82,7 @@
                 <number>1</number>
             </invoice>
             <shipment>
+                <increment_per_store>1</increment_per_store>
                 <prefix></prefix>
                 <date_prefix></date_prefix>
                 <date_prefix_reset_enabled>0</date_prefix_reset_enabled>
