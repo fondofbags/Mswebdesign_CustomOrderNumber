@@ -24,7 +24,7 @@
             <sort_order>100</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
-            <show_in_store>0</show_in_store>
+            <show_in_store>1</show_in_store>
             <groups>
                 <order translate="label" module="mswebdesign_customordernumber">
                     <label>Order Numbers</label>
