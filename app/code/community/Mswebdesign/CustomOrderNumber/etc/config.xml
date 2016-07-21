@@ -38,6 +38,11 @@
                     <entity_type>Mswebdesign_CustomOrderNumber_Model_Eav_Entity_Type</entity_type>
                 </rewrite>
             </eav>
+            <sales_resource>
+                <rewrite>
+                    <quote>Mswebdesign_CustomOrderNumber_Model_Resource_Sales_Quote</quote>
+                </rewrite>
+            </sales_resource>
         </models>
         <helpers>
             <mswebdesign_customordernumber>
